@@ -1,0 +1,48 @@
+@HCL_Food_Delivery_HostAddress = https://localhost:5001
+@token = REPLACE_WITH_JWT
+@userId = 1
+@orderId = 1
+
+### Login
+POST {{HCL_Food_Delivery_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@food.local",
+  "password": "Admin@123"
+}
+
+### Categories
+GET {{HCL_Food_Delivery_HostAddress}}/api/categories
+Authorization: Bearer {{token}}
+Accept: application/json
+
+### Foods
+GET {{HCL_Food_Delivery_HostAddress}}/api/foods?categoryId=1
+Authorization: Bearer {{token}}
+Accept: application/json
+
+### Create Order
+POST {{HCL_Food_Delivery_HostAddress}}/api/orders
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "userId": {{userId}},
+  "items": [
+    { "foodItemId": 1, "quantity": 2, "price": 0 }
+  ],
+  "totalAmount": 0
+}
+
+### User Order History
+GET {{HCL_Food_Delivery_HostAddress}}/api/orders/user/{{userId}}
+Authorization: Bearer {{token}}
+Accept: application/json
+
+### Update Order Status (admin)
+PUT {{HCL_Food_Delivery_HostAddress}}/api/orders/{{orderId}}/status
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+"Preparing"
